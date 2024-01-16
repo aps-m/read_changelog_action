@@ -5,11 +5,11 @@ inputs:
   changelogfile:
     description: 'File for handling'
     required: true
-    default: ''
+    default: 'none'
   tag:  # id of input
     description: 'Search tag'
     required: true
-    default: ''
+    default: 'none'
 outputs:
   content: # id of output
     description: 'Changelog for search tag'
