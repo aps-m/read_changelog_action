@@ -1,0 +1,23 @@
+# action.yml
+name: 'Read changelog'
+description: 'Reading changelog from file'
+inputs:
+  changelogfile:
+    description: 'File for handling'
+    required: true
+    default: ''
+  tag:  # id of input
+    description: 'Search tag'
+    required: true
+    default: ''
+outputs:
+  content: # id of output
+    description: 'Changelog for search tag'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - -f
+    - ${{ inputs.changelogfile }}
+    - -t
+    - ${{ inputs.tag }}
