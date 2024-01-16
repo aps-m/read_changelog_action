@@ -17,7 +17,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - "-f
+    - -f
     - ${{ inputs.changelogfile }}
     - -t
     - ${{ inputs.tag }}
