@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     with open(__FileName) as f:
         for line in f:
-            probe = re.search(r'[0-9]+.[0-9]+.[0-9]+[-]?[bB]?[0-9]?+', line)
+            probe = re.search(r'[0-9]+.[0-9]+.[0-9]+[-]?[bB]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?', line)
             if probe:
                 last_tag = probe[0]
             else:
