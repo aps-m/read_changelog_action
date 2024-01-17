@@ -59,6 +59,8 @@ if __name__ == "__main__":
             else:
                 probe = re.search(r'[\*-][\s]?[\w\s]+[;.]?', line)
                 if probe:
+                    line = line.replace('\n', '')
+                    line = line.replace('\r', '')
                     if __TagName in last_tag:
                         print(line)
                         
