@@ -3,8 +3,8 @@
 import re
 import sys
 
-__FileName = "changelog_examples/changelog.md"
-__TagName = "0.0.2-b2"
+__FileName = "CHANGELOG.md"
+__TagName = "1.23.0"
 
 def __ArgParser(input):
     global __FileName
@@ -51,13 +51,13 @@ if __name__ == "__main__":
     
     last_tag = ""
 
-    with open(__FileName) as f:
+    with open(__FileName, encoding='utf-8') as f:
         for line in f:
             probe = re.search(r'[0-9]+.[0-9]+.[0-9]+[-]?[bB]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?', line)
             if probe:
                 last_tag = probe[0]
             else:
-                probe = re.search(r'[\*-][\s]?[\w\s]+[;.]?', line)
+                probe = re.search(r'[\*-/#][\s]?[\w\s]+[;.]?', line)
                 if probe:
                     line = line.replace('\n', '')
                     line = line.replace('\r', '')
