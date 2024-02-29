@@ -47,6 +47,7 @@ def __InputListBuilder():
 if __name__ == "__main__":
     input_list = __InputListBuilder()
     __ArgParser(input_list)
+    __TagName = __TagName.replace('v', '')
     # print(f'Filename: {__FileName}, tag: {__TagName}')
     
     last_tag = ""
