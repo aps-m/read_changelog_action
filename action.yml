@@ -15,7 +15,7 @@ outputs:
     description: 'Changelog for search tag'
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker://sergeyladanov/read-changelog-ci:v1'
   args:
     - -f
     - ${{ inputs.changelogfile }}
