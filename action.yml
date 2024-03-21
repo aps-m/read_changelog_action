@@ -1,23 +1,24 @@
-# action.yml
-name: 'Read changelog'
-description: 'Reading changelog from file'
+name: 'The name of your action here'
+description: 'Provide a description here'
+author: 'Your name or organization here'
+
+# Add your action's branding here. This will appear on the GitHub Marketplace.
+branding:
+  icon: 'heart'
+  color: 'red'
+
+# Define your inputs here.
 inputs:
-  changelogfile:
-    description: 'File for handling'
+  milliseconds:
+    description: 'Your input description here'
     required: true
-    default: 'none'
-  tag:  # id of input
-    description: 'Search tag'
-    required: true
-    default: 'none'
+    default: '1000'
+
+# Define your outputs here.
 outputs:
-  content: # id of output
-    description: 'Changelog for search tag'
+  time:
+    description: 'Your output description here'
+
 runs:
-  using: 'docker'
-  image: 'docker://sergeyladanov/read-changelog-ci:v1'
-  args:
-    - -f
-    - ${{ inputs.changelogfile }}
-    - -t
-    - ${{ inputs.tag }}
+  using: node20
+  main: dist/index.js
