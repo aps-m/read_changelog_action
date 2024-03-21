@@ -5,7 +5,7 @@ inputs:
     description: 'File for handling'
     required: true
     default: 'none'
-  tag:  # id of input
+  tag: # id of input
     description: 'Search tag'
     required: true
     default: 'none'

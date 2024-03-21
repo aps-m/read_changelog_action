@@ -24804,6 +24804,7 @@ async function run() {
     try {
         const filename = core.getInput('filename');
         const tag = core.getInput('tag');
+        console.log(`Input filename: ${filename} Tag: ${tag}`);
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         core.debug(`Input filename: ${filename} Tag: ${tag}`);
         const result = (0, changelogparser_1.ParseChangelog)(filename, tag);
