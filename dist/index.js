@@ -24802,12 +24802,12 @@ const changelogparser_1 = __nccwpck_require__(6931);
  */
 async function run() {
     try {
-        const filename = core.getInput('filename');
+        const changelogfile = core.getInput('changelogfile');
         const tag = core.getInput('tag');
-        console.log(`Input filename: ${filename} Tag: ${tag}`);
+        console.log(`Input filename: ${changelogfile} Tag: ${tag}`);
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        core.debug(`Input filename: ${filename} Tag: ${tag}`);
-        const result = (0, changelogparser_1.ParseChangelog)(filename, tag);
+        core.debug(`Input filename: ${changelogfile} Tag: ${tag}`);
+        const result = (0, changelogparser_1.ParseChangelog)(changelogfile, tag);
         // Set outputs for other workflow steps to use
         core.setOutput('content', result);
     }

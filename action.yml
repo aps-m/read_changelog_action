@@ -1,11 +1,18 @@
 name: 'Read changelog'
-description: 'Reading changelog from file'
+description: 'Reading changelog file'
+author: 'APS'
+
+# Add your action's branding here. This will appear on the GitHub Marketplace.
+# branding:
+#   icon: 'heart'
+#   color: 'red'
+
 inputs:
-  changelogfile:
+  changelogfile: # id of input
     description: 'File for handling'
     required: true
     default: 'none'
-  tag: # id of input
+  tag:
     description: 'Search tag'
     required: true
     default: 'none'

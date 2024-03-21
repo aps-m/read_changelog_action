@@ -8,16 +8,16 @@ import { ParseChangelog } from './changelogparser'
  */
 export async function run(): Promise<void> {
   try {
-    const filename: string = core.getInput('filename')
+    const changelogfile: string = core.getInput('changelogfile')
 
     const tag: string = core.getInput('tag')
 
-    console.log(`Input filename: ${filename} Tag: ${tag}`)
+    console.log(`Input filename: ${changelogfile} Tag: ${tag}`)
 
     // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Input filename: ${filename} Tag: ${tag}`)
+    core.debug(`Input filename: ${changelogfile} Tag: ${tag}`)
 
-    const result = ParseChangelog(filename, tag)
+    const result = ParseChangelog(changelogfile, tag)
 
     // Set outputs for other workflow steps to use
     core.setOutput('content', result)
