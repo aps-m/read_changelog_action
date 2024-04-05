@@ -72,7 +72,7 @@ changelog_examples/changelog.md
 ```
 - name: test changelog reading
   id: changelog_action
-  uses: aps-m/read_changelog_action@v2
+  uses: aps-m/read_changelog_action@v3
   with:
     changelogfile: 'changelog_examples/changelog.md'
     tag: '0.0.1'
