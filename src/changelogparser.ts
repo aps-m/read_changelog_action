@@ -25,5 +25,8 @@ export function ParseChangelog(filename: string, tag: string): string {
       }
     }
   }
+
+  result = result.trim()
+
   return result
 }

@@ -24757,6 +24757,7 @@ function ParseChangelog(filename, tag) {
             }
         }
     }
+    result = result.trim();
     return result;
 }
 exports.ParseChangelog = ParseChangelog;
