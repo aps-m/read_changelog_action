@@ -48,7 +48,7 @@ changelog.
 
 changelog_examples/changelog.md
 
-```
+```md
 ## 0.0.2-b2
 - change 1.1;
 - change 2.1;
@@ -69,7 +69,7 @@ changelog_examples/changelog.md
 
 ### Использование действия
 
-```
+```yml
 - name: test changelog reading
   id: changelog_action
   uses: aps-m/read_changelog_action@v3
@@ -80,7 +80,7 @@ changelog_examples/changelog.md
 
 ### Пример использования результата
 
-```
+```yml
 - name: Test changelog action result
   run: echo "${{ steps.changelog_action.outputs.content }}"
 ```
