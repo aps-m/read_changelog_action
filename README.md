@@ -50,21 +50,22 @@ changelog_examples/changelog.md
 
 ```md
 ## 0.0.2-b2
+
 - change 1.1;
 - change 2.1;
 - change 3.1;
 
-
 ## 0.0.2-b1
-* change 1.2;
-* change 2.2;
-* change 3.2;
 
+- change 1.2;
+- change 2.2;
+- change 3.2;
 
 ## 0.0.1
-* change 1.3;
-* change 2.3;
-* change 3.3;
+
+- change 1.3;
+- change 2.3;
+- change 3.3;
 ```
 
 ### Использование действия
@@ -72,7 +73,7 @@ changelog_examples/changelog.md
 ```yml
 - name: test changelog reading
   id: changelog_action
-  uses: aps-m/read_changelog_action@v3
+  uses: aps-m/read_changelog_action@v4
   with:
     changelogfile: 'changelog_examples/changelog.md'
     tag: '0.0.1'
