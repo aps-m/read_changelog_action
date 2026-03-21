@@ -73,7 +73,7 @@ changelog_examples/changelog.md
 ```yml
 - name: test changelog reading
   id: changelog_action
-  uses: aps-m/read_changelog_action@v4
+  uses: aps-m/read_changelog_action@v5
   with:
     changelogfile: 'changelog_examples/changelog.md'
     tag: '0.0.1'
