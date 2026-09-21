@@ -2,9 +2,6 @@ import * as core from '@actions/core'
 import * as parser from '../src/changelogparser'
 import * as main from '../src/main'
 
-// Mock the action's main function
-const runMock = jest.spyOn(main, 'run')
-
 // Mock the GitHub Actions core library
 let debugMock: jest.SpiedFunction<typeof core.debug>
 let errorMock: jest.SpiedFunction<typeof core.error>
@@ -16,6 +13,10 @@ let setOutputMock: jest.SpiedFunction<typeof core.setOutput>
 describe('action', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.replaceProperty(process, 'env', {
+      ...process.env,
+      GITHUB_REPOSITORY: 'APS_Soft/mir'
+    })
 
     debugMock = jest.spyOn(core, 'debug').mockImplementation()
     errorMock = jest.spyOn(core, 'error').mockImplementation()
@@ -25,6 +26,10 @@ describe('action', () => {
       .mockReturnValue('parsed changelog')
     setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation()
     setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   it('sets the changelog content output', async () => {
@@ -41,7 +46,6 @@ describe('action', () => {
     })
 
     await main.run()
-    expect(runMock).toHaveReturned()
 
     // Verify that all of the core library functions were called correctly
     expect(parseChangelogMock).toHaveBeenCalledWith('CHANGELOG.md', 'v1.2.3')
@@ -58,6 +62,43 @@ describe('action', () => {
     expect(setFailedMock).not.toHaveBeenCalled()
   })
 
+  it('links every issue reference using the workflow repository name', async () => {
+    parseChangelogMock.mockReturnValue(
+      'Тест (#35). Ещё (#7) и (#35).\r\nБез ссылки: #8, (#abc), (# 9).'
+    )
+
+    await main.run()
+
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'content',
+      'Тест (#35)[https://git.aps-m.com/APS_Soft/mir/issues/35]. ' +
+        'Ещё (#7)[https://git.aps-m.com/APS_Soft/mir/issues/7] и ' +
+        '(#35)[https://git.aps-m.com/APS_Soft/mir/issues/35].\r\n' +
+        'Без ссылки: #8, (#abc), (# 9).'
+    )
+  })
+
+  it('uses the current repository name with the fixed APS_Soft owner', async () => {
+    process.env.GITHUB_REPOSITORY = 'another-owner/another-repo'
+    parseChangelogMock.mockReturnValue('Тест (#123).')
+
+    await main.run()
+
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'content',
+      'Тест (#123)[https://git.aps-m.com/APS_Soft/another-repo/issues/123].'
+    )
+  })
+
+  it('preserves the content when the repository is unavailable', async () => {
+    delete process.env.GITHUB_REPOSITORY
+    parseChangelogMock.mockReturnValue('Тест (#35).')
+
+    await main.run()
+
+    expect(setOutputMock).toHaveBeenCalledWith('content', 'Тест (#35).')
+  })
+
   it('sets a failed status', async () => {
     const failure = new Error('parse failed')
     getInputMock.mockImplementation(name =>
@@ -68,7 +109,6 @@ describe('action', () => {
     })
 
     await main.run()
-    expect(runMock).toHaveReturned()
 
     // Verify that all of the core library functions were called correctly
     expect(setFailedMock).toHaveBeenNthCalledWith(1, 'parse failed')
