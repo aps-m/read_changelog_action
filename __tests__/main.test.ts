@@ -71,22 +71,22 @@ describe('action', () => {
 
     expect(setOutputMock).toHaveBeenCalledWith(
       'content',
-      'Тест (#35)[https://git.aps-m.com/APS_Soft/mir/issues/35]. ' +
-        'Ещё (#7)[https://git.aps-m.com/APS_Soft/mir/issues/7] и ' +
-        '(#35)[https://git.aps-m.com/APS_Soft/mir/issues/35].\r\n' +
+      'Тест [(#35)](https://git.aps-m.com/APS_Soft/mir/issues/35). ' +
+        'Ещё [(#7)](https://git.aps-m.com/APS_Soft/mir/issues/7) и ' +
+        '[(#35)](https://git.aps-m.com/APS_Soft/mir/issues/35).\r\n' +
         'Без ссылки: #8, (#abc), (# 9).'
     )
   })
 
   it('uses the current repository name with the fixed APS_Soft owner', async () => {
-    process.env.GITHUB_REPOSITORY = 'another-owner/another-repo'
-    parseChangelogMock.mockReturnValue('Тест (#123).')
+    process.env.GITHUB_REPOSITORY = 'another-owner/test_notification'
+    parseChangelogMock.mockReturnValue('- Тест 2 (#123).')
 
     await main.run()
 
     expect(setOutputMock).toHaveBeenCalledWith(
       'content',
-      'Тест (#123)[https://git.aps-m.com/APS_Soft/another-repo/issues/123].'
+      '- Тест 2 [(#123)](https://git.aps-m.com/APS_Soft/test_notification/issues/123).'
     )
   })
 

@@ -31779,7 +31779,7 @@ async function run() {
         const result = repository
             ? changelog.replace(/\(#([0-9]+)\)/g, (match, issue) => {
                 const url = `https://git.aps-m.com/APS_Soft/${repository}/issues/${issue}`;
-                return `${match}[${url}]`;
+                return `[${match}](${url})`;
             })
             : changelog;
         // Set outputs for other workflow steps to use

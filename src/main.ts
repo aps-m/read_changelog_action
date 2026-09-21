@@ -22,7 +22,7 @@ export async function run(): Promise<void> {
     const result = repository
       ? changelog.replace(/\(#([0-9]+)\)/g, (match, issue: string) => {
           const url = `https://git.aps-m.com/APS_Soft/${repository}/issues/${issue}`
-          return `${match}[${url}]`
+          return `[${match}](${url})`
         })
       : changelog
 
