@@ -31777,9 +31777,9 @@ async function run() {
         const changelog = (0, changelogparser_1.ParseChangelog)(changelogfile, tag);
         const repository = process.env.GITHUB_REPOSITORY?.split('/').pop();
         const result = repository
-            ? changelog.replace(/\(#([0-9]+)\)/g, (match, issue) => {
+            ? changelog.replace(/\(#([0-9]+)\)/g, (_match, issue) => {
                 const url = `https://git.aps-m.com/APS_Soft/${repository}/issues/${issue}`;
-                return `[${match}](${url})`;
+                return `([#${issue}](${url}))`;
             })
             : changelog;
         // Set outputs for other workflow steps to use

@@ -20,9 +20,9 @@ export async function run(): Promise<void> {
     const changelog = ParseChangelog(changelogfile, tag)
     const repository = process.env.GITHUB_REPOSITORY?.split('/').pop()
     const result = repository
-      ? changelog.replace(/\(#([0-9]+)\)/g, (match, issue: string) => {
+      ? changelog.replace(/\(#([0-9]+)\)/g, (_match, issue: string) => {
           const url = `https://git.aps-m.com/APS_Soft/${repository}/issues/${issue}`
-          return `[${match}](${url})`
+          return `([#${issue}](${url}))`
         })
       : changelog
 

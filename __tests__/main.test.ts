@@ -71,9 +71,9 @@ describe('action', () => {
 
     expect(setOutputMock).toHaveBeenCalledWith(
       'content',
-      'Тест [(#35)](https://git.aps-m.com/APS_Soft/mir/issues/35). ' +
-        'Ещё [(#7)](https://git.aps-m.com/APS_Soft/mir/issues/7) и ' +
-        '[(#35)](https://git.aps-m.com/APS_Soft/mir/issues/35).\r\n' +
+      'Тест ([#35](https://git.aps-m.com/APS_Soft/mir/issues/35)). ' +
+        'Ещё ([#7](https://git.aps-m.com/APS_Soft/mir/issues/7)) и ' +
+        '([#35](https://git.aps-m.com/APS_Soft/mir/issues/35)).\r\n' +
         'Без ссылки: #8, (#abc), (# 9).'
     )
   })
@@ -86,7 +86,7 @@ describe('action', () => {
 
     expect(setOutputMock).toHaveBeenCalledWith(
       'content',
-      '- Тест 2 [(#123)](https://git.aps-m.com/APS_Soft/test_notification/issues/123).'
+      '- Тест 2 ([#123](https://git.aps-m.com/APS_Soft/test_notification/issues/123)).'
     )
   })
 
