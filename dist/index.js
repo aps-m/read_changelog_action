@@ -31774,7 +31774,14 @@ async function run() {
         console.log(`Input filename: ${changelogfile} Tag: ${tag}`);
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         core.debug(`Input filename: ${changelogfile} Tag: ${tag}`);
-        const result = (0, changelogparser_1.ParseChangelog)(changelogfile, tag);
+        const changelog = (0, changelogparser_1.ParseChangelog)(changelogfile, tag);
+        const repository = process.env.GITHUB_REPOSITORY?.split('/').pop();
+        const result = repository
+            ? changelog.replace(/\(#([0-9]+)\)/g, (_match, issue) => {
+                const url = `https://git.aps-m.com/APS_Soft/${repository}/issues/${issue}`;
+                return `([#${issue}](${url}))`;
+            })
+            : changelog;
         // Set outputs for other workflow steps to use
         core.setOutput('content', result);
     }
