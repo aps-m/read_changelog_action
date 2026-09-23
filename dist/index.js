@@ -31776,12 +31776,13 @@ async function run() {
         core.debug(`Input filename: ${changelogfile} Tag: ${tag}`);
         const changelog = (0, changelogparser_1.ParseChangelog)(changelogfile, tag);
         const repository = process.env.GITHUB_REPOSITORY?.split('/').pop();
-        const result = repository
-            ? changelog.replace(/\(#([0-9]+)\)/g, (_match, issue) => {
-                const url = `https://git.aps-m.com/APS_Soft/${repository}/issues/${issue}`;
-                return `([#${issue}](${url}))`;
-            })
-            : changelog;
+        const result = changelog.replace(/\((?:(?:([A-Za-z0-9_.-]+)\/)?([A-Za-z0-9_.-]+))?#([0-9]+)\)/g, (match, organization, explicitRepository, issue) => {
+            const targetRepository = explicitRepository || repository;
+            if (!targetRepository)
+                return match;
+            const url = `https://git.aps-m.com/${organization || 'APS_Soft'}/${targetRepository}/issues/${issue}`;
+            return `([#${issue}](${url}))`;
+        });
         // Set outputs for other workflow steps to use
         core.setOutput('content', result);
     }

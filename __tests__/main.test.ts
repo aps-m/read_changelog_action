@@ -99,6 +99,53 @@ describe('action', () => {
     expect(setOutputMock).toHaveBeenCalledWith('content', 'Тест (#35).')
   })
 
+  it('links mixed local, repository and organization issue references', async () => {
+    parseChangelogMock.mockReturnValue(
+      '(#1), (other_repo-2.js#35), (Other-Org/another_repo#7), (other_repo-2.js#35).'
+    )
+
+    await main.run()
+
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'content',
+      '([#1](https://git.aps-m.com/APS_Soft/mir/issues/1)), ' +
+        '([#35](https://git.aps-m.com/APS_Soft/other_repo-2.js/issues/35)), ' +
+        '([#7](https://git.aps-m.com/Other-Org/another_repo/issues/7)), ' +
+        '([#35](https://git.aps-m.com/APS_Soft/other_repo-2.js/issues/35)).'
+    )
+  })
+
+  it.each([undefined, '', 'APS_Soft/'])(
+    'links explicit repositories when GITHUB_REPOSITORY is %p',
+    async repository => {
+      if (repository === undefined) {
+        delete process.env.GITHUB_REPOSITORY
+      } else {
+        process.env.GITHUB_REPOSITORY = repository
+      }
+      parseChangelogMock.mockReturnValue('(#1), (repo#2), (org/repo#3).')
+
+      await main.run()
+
+      expect(setOutputMock).toHaveBeenCalledWith(
+        'content',
+        '(#1), ([#2](https://git.aps-m.com/APS_Soft/repo/issues/2)), ' +
+          '([#3](https://git.aps-m.com/org/repo/issues/3)).'
+      )
+    }
+  )
+
+  it('preserves malformed and unparenthesized qualified references', async () => {
+    const content =
+      '(repo#abc), (repo#), (repo# 1), (org/#1), (/repo#1), ' +
+      '(org/repo/extra#1), (org/re po#1), repo#1, org/repo#1.'
+    parseChangelogMock.mockReturnValue(content)
+
+    await main.run()
+
+    expect(setOutputMock).toHaveBeenCalledWith('content', content)
+  })
+
   it('sets a failed status', async () => {
     const failure = new Error('parse failed')
     getInputMock.mockImplementation(name =>

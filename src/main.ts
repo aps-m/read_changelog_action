@@ -19,12 +19,21 @@ export async function run(): Promise<void> {
 
     const changelog = ParseChangelog(changelogfile, tag)
     const repository = process.env.GITHUB_REPOSITORY?.split('/').pop()
-    const result = repository
-      ? changelog.replace(/\(#([0-9]+)\)/g, (_match, issue: string) => {
-          const url = `https://git.aps-m.com/APS_Soft/${repository}/issues/${issue}`
-          return `([#${issue}](${url}))`
-        })
-      : changelog
+    const result = changelog.replace(
+      /\((?:(?:([A-Za-z0-9_.-]+)\/)?([A-Za-z0-9_.-]+))?#([0-9]+)\)/g,
+      (
+        match,
+        organization: string | undefined,
+        explicitRepository: string | undefined,
+        issue: string
+      ) => {
+        const targetRepository = explicitRepository || repository
+        if (!targetRepository) return match
+
+        const url = `https://git.aps-m.com/${organization || 'APS_Soft'}/${targetRepository}/issues/${issue}`
+        return `([#${issue}](${url}))`
+      }
+    )
 
     // Set outputs for other workflow steps to use
     core.setOutput('content', result)
